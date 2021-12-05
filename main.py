@@ -40,14 +40,14 @@ def recunoastere_vocala(r):
 
 ###youtube search###
 def cauta_youtube(r):
-    raspuns("Ce sa caut pe youtube?")
+    raspuns("Ce să caut pe YouTube?")
     cautare = recunoastere_vocala(r)
     titlu = str(cautare).replace(" ","+")
-    webbrowser.open('https://www.youtube.com/results?search_query={}]'.format(titlu))
+    webbrowser.open('https://www.youtube.com/results?search_query={}'.format(titlu))
 
 def cauta_google(r):
-    raspuns("Ce sa caut pe google?")
-    print("Ce sa caut pe google?")
+    raspuns("Ce să caut pe Google?")
+    print("Ce sa caut pe Google?")
     comanda =recunoastere_vocala(r)
     titlu = str(comanda).lower()
     for url in search(titlu, stop=3):
@@ -65,7 +65,8 @@ if __name__ == "__main__":
     comanda = recunoastere_vocala(r)
     dictionar_comenzi = ['cauta pe youtube','google','notificari']
     print(str(comanda))
-    if str(comanda).lower() == 'Caută pe YouTube'.lower():
+    if str(comanda).lower() == 'Caută pe YouTube'.lower()  :
         cauta_youtube(r)
-    if str(comanda).lower() == "caută pe google".lower():
+
+    elif str(comanda).lower() == "caută pe google".lower():
         cauta_google(r)
