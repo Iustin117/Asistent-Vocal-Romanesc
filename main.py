@@ -30,6 +30,7 @@ def recunoastere_vocala(r):
         audio = r.listen(source)
         try:
             text = r.recognize_google(audio, language="ro-RO")
+            print('ati incercat sa spuneti: {}'.format(text))
         except sr.RequestError:
             print("Problema cu API-ul")
         except sr.UnknownValueError:
@@ -49,24 +50,26 @@ def cauta_google(r):
     raspuns("Ce să caut pe Google?")
     print("Ce sa caut pe Google?")
     comanda =recunoastere_vocala(r)
-    titlu = str(comanda).lower()
-    for url in search(titlu, stop=3):
-        webbrowser.open(url)
+    titlu = str(comanda).lower().replace(" ", "+")
+    link = "https://www.google.com/search?client=opera-gx&q=titlul&sourceid=opera&ie=UTF-8&oe=UTF-8".replace("titlul",titlu)
+    webbrowser.open(link)
 
-def google_scrape(url):
-    thepage = urllib.urlopen(url)
-    soup = BeautifulSoup(thepage, "html.parser")
-    return soup.title.text
 
 
 
 if __name__ == "__main__":
     r = sr.Recognizer()
     comanda = recunoastere_vocala(r)
-    dictionar_comenzi = ['cauta pe youtube','google','notificari']
+    dictionar_google = ['google','caută pe google','gaseste pe google','caută ceva pentru mine','caută',"spune și mie"]
+    dictionar_youtube =['youtube','caută pe youtube','gaseste pe youtube']
     print(str(comanda))
-    if str(comanda).lower() == 'Caută pe YouTube'.lower()  :
-        cauta_youtube(r)
 
-    elif str(comanda).lower() == "caută pe google".lower():
-        cauta_google(r)
+    for i in dictionar_youtube:
+        comanda_gasita=str(comanda).lower() == i.lower()
+        if comanda_gasita:
+            cauta_youtube(r)
+
+    for i in dictionar_google:
+        comanda_gasita = str(comanda).lower() == i.lower()
+        if comanda_gasita:
+            cauta_google(r)
