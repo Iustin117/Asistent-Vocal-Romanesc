@@ -85,4 +85,3 @@ if __name__ == "__main__":
     r = sr.Recognizer()
     asculta_numele(r)
 
-
