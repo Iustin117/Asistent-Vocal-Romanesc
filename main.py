@@ -26,22 +26,24 @@ def raspuns(text):
 
 ####Recunoastere vocala####
 def recunoastere_vocala(r):
+    while True:
+        with sr.Microphone() as source:
+            print("Spune orice:")
+            r.adjust_for_ambient_noise(source)
+            audio = r.listen(source)
+            try:
+                text = r.recognize_google(audio, language="ro-RO")
+                text_inteles = True
+                print('ati incercat sa spuneti: {}'.format(text))
+            except sr.RequestError:
+                print("Problema cu API-ul")
+            except sr.UnknownValueError:
+                text_inteles = False
+                print("Vocea nu a putut fi inteleasa...")
+            if text_inteles:
+                return text
+                break
 
-    with sr.Microphone() as source:
-        print("Spune orice:")
-        r.adjust_for_ambient_noise(source)
-        audio = r.listen(source)
-        try:
-            text = r.recognize_google(audio, language="ro-RO")
-            print('ati incercat sa spuneti: {}'.format(text))
-        except sr.RequestError:
-            print("Problema cu API-ul")
-        except sr.UnknownValueError:
-            print("Vocea nu a putut fi inteleasa...")
-
-    return text
-
-###youtube search###
 def cauta_youtube(r):
     raspuns("Ce anume?")
     cautare = recunoastere_vocala(r)
@@ -76,13 +78,15 @@ def asculta_numele(r):
             preia_comanda(r)
             break
 
+
 def preia_comanda(r):
     raspuns("Da aici, gata sa te ajut!")
     comanda = recunoastere_vocala(r)
     cauta_comanda(comanda)
 
+
+
 if __name__ == "__main__":
     r = sr.Recognizer()
-    asculta_numele(r)
-
-
+    while True:
+        asculta_numele(r)
