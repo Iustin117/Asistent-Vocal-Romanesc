@@ -78,13 +78,10 @@ def asculta_numele(r):
             preia_comanda(r)
             break
 
-
 def preia_comanda(r):
     raspuns("Da aici, gata sa te ajut!")
     comanda = recunoastere_vocala(r)
     cauta_comanda(comanda)
-
-
 
 if __name__ == "__main__":
     r = sr.Recognizer()
