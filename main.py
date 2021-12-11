@@ -6,11 +6,16 @@ import os
 import pyglet
 import webbrowser
 from bs4 import BeautifulSoup
-import urllib
+from youtube_search_scraper import *
+import warnings
+warnings.filterwarnings("ignore")
+
 
 ###dictionare
 dictionar_google = ['google','caută pe google','gaseste pe google','caută ceva pentru mine','caută',"spune și mie"]
 dictionar_youtube =['youtube','caută pe youtube','gaseste pe youtube']
+dictionar_youtube_play =['play','pune melodia','pune videoclipul','caută videoclipul','caută melodia']
+
 
 ###Raspuns###
 def raspuns(text):
@@ -48,7 +53,9 @@ def cauta_youtube(r):
     raspuns("Ce anume?")
     cautare = recunoastere_vocala(r)
     titlu = str(cautare).replace(" ","+")
-    webbrowser.open('https://www.youtube.com/results?search_query={}'.format(titlu))
+    link = 'https://www.youtube.com/results?search_query={}'.format(titlu)
+    webbrowser.open(link)
+
 
 def cauta_google(r):
     raspuns("Ce anume?")
@@ -57,6 +64,23 @@ def cauta_google(r):
     titlu = str(comanda).lower().replace(" ", "+")
     link = "https://www.google.com/search?client=opera-gx&q=titlul&sourceid=opera&ie=UTF-8&oe=UTF-8".replace("titlul",titlu)
     webbrowser.open(link)
+
+def youtube_play(r):
+    raspuns("Ce anume?")
+    cautare = recunoastere_vocala(r)
+    titlu = str(cautare)
+    youtube.login(username ="AsistentVocalRO", password="avrp2021")
+    youtube.search(keyword= titlu)
+    response = youtube.search_results()
+    data = response['body']
+    startinglink = str(data).find("/watch?v=")
+    fc=startinglink + 9
+    lc = fc +11
+    a = str(data)[fc:lc]
+    webbrowser.open("https://www.youtube.com/watch?v=" + a)
+    youtube.end()
+    youtube.quit()
+
 
 def cauta_comanda(comanda):
     for i in dictionar_youtube:
@@ -68,6 +92,12 @@ def cauta_comanda(comanda):
         comanda_gasita = str(comanda).lower() == i.lower()
         if comanda_gasita:
             cauta_google(r)
+
+    for i in dictionar_youtube_play:
+        comanda_gasita = str(comanda).lower() == i.lower()
+        if comanda_gasita:
+            youtube_play(r)
+
 
 def asculta_numele(r):
     while True:
@@ -87,3 +117,4 @@ if __name__ == "__main__":
     r = sr.Recognizer()
     while True:
         asculta_numele(r)
+
