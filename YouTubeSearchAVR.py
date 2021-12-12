@@ -1,8 +1,7 @@
 import urllib.request
 import webbrowser
 
-
-def youtybe_play(titlu):
+def youtube_play(titlu):
     link = "https://www.youtube.com/results?search_query=" + titlu
     html = urllib.request.urlopen(link)
     b = str(html.read().decode())

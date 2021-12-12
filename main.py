@@ -17,6 +17,8 @@ dictionar_youtube =['youtube', 'caută pe youtube', 'gaseste pe youtube']
 dictionar_youtube_play =['play', 'pune melodia', 'pune videoclipul', 'caută videoclipul', 'caută melodia']
 dictionar_whatsap = ['whatsapp', 'trimite un mesaj', 'trimite un mesaj pe whatsapp', 'mesaj']
 dictionar_positiv = ['da', 'da asta e', 'da e corect', 'corect', 'da este corect', 'perfect']
+dictionar_negativ = ['nu', 'nu este', 'nu e', 'nu e corect', 'nu este corect', 'gresit']
+dictionar_iesire = ['iesi', '']
 
 ###Raspuns###
 def raspuns(text):
@@ -126,7 +128,9 @@ def verifica(com):
         positiv = str(com).lower() == i.lower()
         if positiv:
             return positiv
-        else:
+    for i in dictionar_negativ:
+        negativ = str(com).lower == i.lower()
+        if negativ:
             positiv = False
             return  positiv
 
