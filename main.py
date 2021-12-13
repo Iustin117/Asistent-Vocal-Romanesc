@@ -18,7 +18,7 @@ dictionar_youtube_play =['play', 'pune melodia', 'pune videoclipul', 'caută vid
 dictionar_whatsap = ['whatsapp', 'trimite un mesaj', 'trimite un mesaj pe whatsapp', 'mesaj']
 dictionar_positiv = ['da', 'da asta e', 'da e corect', 'corect', 'da este corect', 'perfect']
 dictionar_negativ = ['nu', 'nu este', 'nu e', 'nu e corect', 'nu este corect', 'gresit']
-dictionar_iesire = ['iesi', '']
+dictionar_iesire = ['iesi', 'nu am nevoie de nimic', 'nu mai am nevoie de nimic', 'nu mulțumesc']
 
 ###Raspuns###
 def raspuns(text):
@@ -108,6 +108,7 @@ def whatapp_get_info():
     raspuns("Cui vrei să trimiți un mesaj? Poți sî imi spui numarul de telefon?")
     nrcorect=False
     while nrcorect == False:
+        raspuns("repeta numarul")
         nrcorect = True
         numar = str(recunoastere_vocala()).replace(" ", "")
         raspuns(str(numar)+" este corect?")

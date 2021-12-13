@@ -8,5 +8,5 @@ def youtube_play(titlu):
     startinglink = b.find("/watch?v=")
     fc = startinglink + 9
     lc = fc + 11
-    a = str(b)[fc:lc]
-    webbrowser.open("https://www.youtube.com/watch?v=" + a)
+    videoid = str(b)[fc:lc]
+    webbrowser.open("https://www.youtube.com/watch?v=" + videoid)
