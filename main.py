@@ -7,6 +7,7 @@ import pyglet
 import webbrowser
 import YouTubeSearchAVR
 import whatsappAVR
+import Agenda
 
 
 warnings.filterwarnings("ignore")
@@ -16,9 +17,10 @@ dictionar_google = ['google', 'caută pe google', 'gaseste pe google', 'caută c
 dictionar_youtube =['youtube', 'caută pe youtube', 'gaseste pe youtube']
 dictionar_youtube_play =['play', 'pune melodia', 'pune videoclipul', 'caută videoclipul', 'caută melodia']
 dictionar_whatsap = ['whatsapp', 'trimite un mesaj', 'trimite un mesaj pe whatsapp', 'mesaj']
-dictionar_positiv = ['da', 'da asta e', 'da e corect', 'corect', 'da este corect', 'perfect']
+dictionar_positiv = ['da', 'da asta e', 'da e corect', 'corect', 'da este corect', 'perfect', 'da este']
 dictionar_negativ = ['nu', 'nu este', 'nu e', 'nu e corect', 'nu este corect', 'gresit']
 dictionar_iesire = ['iesi', 'nu am nevoie de nimic', 'nu mai am nevoie de nimic', 'nu mulțumesc']
+dictionar_agenda_adauga_contact = ['agendă', 'deschide agendă', 'contacte']
 
 ###Raspuns###
 def raspuns(text):
@@ -88,6 +90,10 @@ def cauta_comanda(comanda):
         comanda_gasita = str(comanda).lower() == i.lower()
         if comanda_gasita:
             whatapp_get_info()
+    for i in dictionar_agenda_adauga_contact:
+        comanda_gasita = str(comanda).lower() == i.lower()
+        if comanda_gasita:
+            adauga_contact()
 
 def asculta_numele():
     while True:
@@ -106,17 +112,18 @@ def preia_comanda():
 def whatapp_get_info():
     global numar, mesaj
     raspuns("Cui vrei să trimiți un mesaj? Poți sî imi spui numarul de telefon?")
-    nrcorect=False
-    while nrcorect == False:
+    nr_corect =False
+    while nr_corect == False:
         raspuns("repeta numarul")
-        nrcorect = True
+        nr_corect = True
         numar = str(recunoastere_vocala()).replace(" ", "")
         raspuns(str(numar)+" este corect?")
         corect = recunoastere_vocala()
-        nrcorect = verifica(corect)
+        nr_corect = verifica(corect)
     raspuns("Perfect, acum ce mesaj vrei sa primeasca?")
     mesaj_corect = False
     while mesaj_corect == False:
+        raspuns("Repeta mesajul:")
         mesaj_corect = True
         mesaj = recunoastere_vocala()
         raspuns(str(mesaj)+" este corect?")
@@ -135,8 +142,43 @@ def verifica(com):
             positiv = False
             return  positiv
 
+def adauga_contact():
+    raspuns("Pe cine vrei să adaugi in agenda?")
+    nume = recunoastere_vocala()
+    raspuns(nume+" Este corect?")
+    confirmare = recunoastere_vocala()
+    if verifica(confirmare):
+        Agenda.adauga_nume(nume)
+    else:
+        nume_corect = False
+        while nume_corect == False:
+            nume_corect = True
+            raspuns("Atunci repetă numele")
+            nume = recunoastere_vocala()
+            raspuns(nume + " Este corect?")
+            corectie = recunoastere_vocala()
+            nume_corect = verifica(corectie)
+        Agenda.adauga_nume(nume)
+
+
+    raspuns("Numarul de telefon?")
+    nr = recunoastere_vocala()
+    confirmare = recunoastere_vocala()
+    if verifica(confirmare):
+        Agenda.adauga_numar(nr)
+    else:
+        nr_corect = False
+        while nr_corect == False:
+            nr_corect = True
+            raspuns("Atunci repetă numele")
+            nr = recunoastere_vocala()
+            raspuns(nr + " Este corect?")
+            corectie = recunoastere_vocala()
+            nr_corect = verifica(corectie)
+        Agenda.adauga_nume(nr)
+
+
 if __name__ == "__main__":
     r = sr.Recognizer()
     while True:
         asculta_numele()
-
